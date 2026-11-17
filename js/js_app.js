@@ -507,7 +507,14 @@
     var count7d = pendingReviews.filter(function (r) { return r.tipo === "7d"; }).length;
     var count30d = pendingReviews.filter(function (r) { return r.tipo === "30d"; }).length;
 
-    document.getElementById("weekReviewSummary").innerHTML =
+    var summaryEl = document.getElementById("weekReviewSummary");
+    if (!summaryEl) {
+      summaryEl = document.createElement("div");
+      summaryEl.id = "weekReviewSummary";
+      summaryEl.className = "week-review-summary";
+      board.parentNode.insertBefore(summaryEl, board);
+    }
+    summaryEl.innerHTML =
       '<div class="review-summary-item due"><span>Revisões atrasadas</span><strong>' + overdueCount + '</strong></div>' +
       '<div class="review-summary-item"><span>24 horas</span><strong>' + count24h + '</strong></div>' +
       '<div class="review-summary-item"><span>7 dias</span><strong>' + count7d + '</strong></div>' +
