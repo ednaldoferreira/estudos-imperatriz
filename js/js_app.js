@@ -499,6 +499,20 @@
     document.getElementById("weekStats").textContent =
       doneCount + " de " + weekBlocks.length + " metas concluídas nesta semana";
 
+    var pendingReviews = (state.revisoes || []).filter(function (r) {
+      return !r.done;
+    });
+    var overdueCount = pendingReviews.filter(function (r) { return r.due < today; }).length;
+    var count24h = pendingReviews.filter(function (r) { return r.tipo === "24h"; }).length;
+    var count7d = pendingReviews.filter(function (r) { return r.tipo === "7d"; }).length;
+    var count30d = pendingReviews.filter(function (r) { return r.tipo === "30d"; }).length;
+
+    document.getElementById("weekReviewSummary").innerHTML =
+      '<div class="review-summary-item due"><span>Revisões atrasadas</span><strong>' + overdueCount + '</strong></div>' +
+      '<div class="review-summary-item"><span>24 horas</span><strong>' + count24h + '</strong></div>' +
+      '<div class="review-summary-item"><span>7 dias</span><strong>' + count7d + '</strong></div>' +
+      '<div class="review-summary-item"><span>30 dias</span><strong>' + count30d + '</strong></div>';
+
     var kindLabel = {
       estudo: "Estudo",
       exercicio: "Exercício",
