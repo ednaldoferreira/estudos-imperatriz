@@ -3,10 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Portal de Estudos — Prefeitura de Imperatriz</title>
+  <title>Portal de Estudos — Imperatriz (Agente de Trânsito & Guarda Municipal)</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/styles.css">
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
 </head>
@@ -14,57 +14,150 @@
   <div class="overlay" id="overlay"></div>
   <div class="app">
     <header class="header">
-      <button class="menu-toggle" id="menuToggle" aria-label="Abrir menu">☰</button>
-      <div class="brand">
-        <div class="logo-mark">PI</div>
-        <div>
-          <h1>Portal de Estudos</h1>
-          <p>Imperatriz — Agente de Trânsito &amp; Guarda Municipal</p>
+      <div class="header-left">
+        <button class="menu-toggle" id="menuToggle" aria-label="Abrir menu">☰</button>
+        <div class="brand">
+          <div class="logo-mark">ITZ</div>
+          <div>
+            <h1>AGORA VAI · IMPERATRIZ</h1>
+            <p>Agente de Trânsito &amp; Guarda Municipal</p>
+          </div>
         </div>
       </div>
+
       <div class="header-center">
         <div class="pomodoro" id="pomodoro">
-          <span class="pomo-mode" id="pomoMode">Foco</span>
+          <span class="pomo-mode" id="pomoMode">FOCO</span>
           <span class="pomo-time" id="pomoTime">25:00</span>
           <div class="pomo-actions">
             <button type="button" class="icon-btn" id="pomoStart" title="Iniciar/Pausar">▶</button>
             <button type="button" class="icon-btn" id="pomoReset" title="Reiniciar">↺</button>
-            <button type="button" class="icon-btn" id="pomoModeBtn" title="Alternar 25/50">25</button>
+            <button type="button" class="icon-btn" id="pomoModeBtn" title="Alternar 25/50 min">25m</button>
           </div>
         </div>
       </div>
+
       <div class="header-actions">
-        <button class="btn btn-ghost" id="btnExport"><span>Exportar Backup (JSON)</span></button>
-        <button class="btn btn-gold" id="btnImport"><span>Importar Backup (JSON)</span></button>
+        <div class="xp-pill" title="Experiência acumulada com blocos, questões e revisões">
+          <span id="xpValue">0 XP</span>
+        </div>
+        <button class="btn btn-light-outline" id="btnExport" title="Baixar backup dos seus dados">Exportar</button>
+        <button class="btn btn-light-solid" id="btnImport" title="Carregar backup JSON">Importar</button>
         <input type="file" id="importFile" accept="application/json" hidden>
       </div>
     </header>
 
     <aside class="sidebar" id="sidebar">
-      <div class="nav-label">Navegação</div>
-      <button type="button" class="nav-btn active" data-tab="dashboard"><span class="num">1</span> Dashboard</button>
-      <button type="button" class="nav-btn" data-tab="matriz"><span class="num">2</span> Matriz &amp; Edital</button>
-      <button type="button" class="nav-btn" data-tab="plano"><span class="num">3</span> Plano &amp; Pomodoro</button>
-      <button type="button" class="nav-btn" data-tab="questoes"><span class="num">4</span> Questões FSADU</button>
-      <button type="button" class="nav-btn" data-tab="erros"><span class="num">5</span> Erros &amp; Flashcards</button>
-      <button type="button" class="nav-btn" data-tab="revisoes"><span class="num">6</span> Revisões Espaçadas</button>
-      <button type="button" class="nav-btn" data-tab="simulados"><span class="num">7</span> Simulados</button>
-      <button type="button" class="nav-btn" data-tab="taf"><span class="num">8</span> Treino TAF</button>
+      <button type="button" class="nav-btn active" data-tab="plano" title="Quadro Semanal de Aulas">
+        <span class="ico">📅</span><span class="txt">Aulas &amp; Semana</span>
+      </button>
+      <button type="button" class="nav-btn" data-tab="dashboard" title="Painel Geral e Métricas">
+        <span class="ico">📊</span><span class="txt">Dashboard</span>
+      </button>
+      <button type="button" class="nav-btn" data-tab="matriz" title="Edital Verticalizado FSADU">
+        <span class="ico">📋</span><span class="txt">Edital Vertical</span>
+      </button>
+      <button type="button" class="nav-btn" data-tab="questoes" title="Controle de Questões">
+        <span class="ico">✅</span><span class="txt">Questões</span>
+      </button>
+      <button type="button" class="nav-btn" data-tab="revisoes" title="Revisões Espaçadas">
+        <span class="ico">🔁</span><span class="txt">Revisões</span>
+      </button>
+      <button type="button" class="nav-btn" data-tab="erros" title="Caderno de Erros e Flashcards">
+        <span class="ico">🧠</span><span class="txt">Erros &amp; Cards</span>
+      </button>
+      <button type="button" class="nav-btn" data-tab="simulados" title="Simulados">
+        <span class="ico">🎯</span><span class="txt">Simulados</span>
+      </button>
+      <button type="button" class="nav-btn" data-tab="taf" title="Treino Físico TAF">
+        <span class="ico">🏃</span><span class="txt">Treino TAF</span>
+      </button>
     </aside>
 
     <main class="main">
-      <section class="tab active" id="tab-dashboard">
+      <!-- ABA 1 (PADRÃO): QUADRO SEMANAL DE AULAS ESTILO AGORA VAI -->
+      <section class="tab active" id="tab-plano">
         <div class="page-title">
           <div>
-            <h2>Painel Geral</h2>
-            <p>KPIs em tempo real com base nos seus registros.</p>
+            <h2>Quadro Semanal de Estudos</h2>
+            <p>Clique em qualquer cartão para concluir a meta e riscar a atividade.</p>
+          </div>
+          <div class="toolbar-inline">
+            <div class="legend">
+              <span class="dot dot-estudo"></span> Estudo
+              <span class="dot dot-exercicio"></span> Exercício
+              <span class="dot dot-revisao"></span> Revisão
+            </div>
+            <button type="button" class="btn btn-outline" id="btnToggleConfig">⚙ Configurar Plano</button>
+            <button type="button" class="btn btn-warning" id="btnReplan" title="Joga metas pendentes de dias passados para os próximos dias">↻ Replanejar Atrasos</button>
+          </div>
+        </div>
+
+        <article class="card config-drawer" id="planConfigDrawer" hidden>
+          <div class="drawer-head">
+            <h3>Configuração do Ciclo Personalizado</h3>
+            <span class="muted-small">Ajuste sua disponibilidade e clique em Gerar Quadro</span>
+          </div>
+          <div class="form-grid">
+            <div class="field" style="flex:1.4">
+              <label>Cargo Foco</label>
+              <select id="planCargoFoco">
+                <option value="ambos">Ambos (Agente de Trânsito + Guarda Municipal)</option>
+                <option value="transito">Foco Agente de Trânsito (Comum + Trânsito)</option>
+                <option value="guarda">Foco Guarda Municipal (Comum + Guarda)</option>
+              </select>
+            </div>
+            <div class="field" style="flex:2">
+              <label>Dias disponíveis na semana</label>
+              <div class="days" id="planDays"></div>
+            </div>
+            <div class="field">
+              <label>Horas líquidas / dia</label>
+              <input type="number" id="planHours" min="1" max="12" step="0.5" value="3">
+            </div>
+            <div class="field">
+              <label>Fase (PDCA)</label>
+              <select id="planPhase">
+                <option value="1">Fase 1 — Base (50% Estudo / 30% Exerc. / 20% Rev.)</option>
+                <option value="2">Fase 2 — Aprofundamento (20% Estudo / 50% Exerc. / 30% Rev.)</option>
+                <option value="3">Fase 3 — Reta Final (10% Estudo / 50% Exerc. / 40% Rev.)</option>
+              </select>
+            </div>
+          </div>
+          <details class="levels-details">
+            <summary>Ajustar nível por disciplina (Iniciante = mais blocos · Avançado = menos blocos)</summary>
+            <div class="levels" id="planLevels" style="margin-top:10px"></div>
+          </details>
+          <div class="toolbar" style="margin-top:14px;margin-bottom:0">
+            <button type="button" class="btn btn-primary" id="btnGenerate">Gerar Quadro Semanal</button>
+            <button type="button" class="btn btn-outline" id="btnClearSchedule">Limpar Quadro</button>
+          </div>
+        </article>
+
+        <div class="week-nav">
+          <div class="week-tabs">
+            <button type="button" class="week-tab active" data-week="1">Semana 1 (Atual)</button>
+            <button type="button" class="week-tab" data-week="2">Semana 2 (Próxima)</button>
+          </div>
+          <div class="week-stats" id="weekStats">0 de 0 metas concluídas nesta semana</div>
+        </div>
+
+        <div class="kanban-board" id="kanbanBoard"></div>
+      </section>
+
+      <!-- ABA 2: DASHBOARD -->
+      <section class="tab" id="tab-dashboard">
+        <div class="page-title">
+          <div>
+            <h2>Painel de Desempenho (PDCA)</h2>
+            <p>Acompanhamento em tempo real da sua evolução rumo à aprovação.</p>
           </div>
         </div>
         <div class="kpis">
           <article class="card kpi">
-            <div class="label">Horas estudadas vs. planejadas</div>
-            <div class="value" id="kpiHours">0h / 0h</div>
-            <div class="meta" id="kpiHoursMeta">0% de cumprimento</div>
+            <div class="label">Horas líquidas acumuladas</div>
+            <div class="value" id="kpiHours">0.0h / 0.0h</div>
+            <div class="meta" id="kpiHoursMeta">0% da meta semanal cumprida</div>
             <div class="progress"><span id="kpiHoursBar" style="width:0%"></span></div>
           </article>
           <article class="card kpi">
@@ -74,7 +167,7 @@
             <div class="progress"><span id="kpiQuestionsBar" style="width:0%"></span></div>
           </article>
           <article class="card kpi">
-            <div class="label">Progresso do edital</div>
+            <div class="label">Edital verticalizado concluído</div>
             <div class="value" id="kpiEdital">0%</div>
             <div class="meta" id="kpiEditalMeta">0 de 0 tópicos concluídos</div>
             <div class="progress"><span id="kpiEditalBar" style="width:0%"></span></div>
@@ -82,59 +175,64 @@
         </div>
         <div class="charts">
           <article class="card">
-            <h3>Desempenho por disciplina</h3>
+            <h3>Aproveitamento por disciplina (%)</h3>
             <div class="chart-wrap"><canvas id="chartBars"></canvas></div>
           </article>
           <article class="card">
-            <h3>Tempo por cargo</h3>
+            <h3>Distribuição de horas por cargo</h3>
             <div class="chart-wrap"><canvas id="chartDonut"></canvas></div>
           </article>
           <article class="card chart-wide">
-            <h3>Evolução dos simulados</h3>
+            <h3>Evolução nos simulados</h3>
             <div class="chart-wrap"><canvas id="chartLine"></canvas></div>
           </article>
         </div>
       </section>
 
+      <!-- ABA 3: MATRIZ & EDITAL VERTICALIZADO -->
       <section class="tab" id="tab-matriz">
         <div class="page-title">
           <div>
-            <h2>Matriz &amp; Edital Verticalizado</h2>
-            <p>Conteúdos reais FSADU — Prefeitura de Imperatriz. Marque teoria e revisões.</p>
+            <h2>Edital Verticalizado — FSADU Imperatriz</h2>
+            <p>Tópicos organizados na ordem exata do edital, separados por cargo.</p>
           </div>
         </div>
-        <div class="filters">
+        <div class="filters card">
           <div class="field">
-            <label for="filterCargo">Cargo</label>
+            <label for="filterCargo">Filtrar Cargo</label>
             <select id="filterCargo"></select>
+          </div>
+          <div class="field">
+            <label for="filterDisciplina">Filtrar Disciplina</label>
+            <select id="filterDisciplina"></select>
           </div>
           <div class="field">
             <label for="filterPrioridade">Prioridade</label>
             <select id="filterPrioridade"></select>
           </div>
-          <div class="field">
+          <div class="field" style="flex:1.5">
             <label for="filterBusca">Buscar assunto</label>
-            <input id="filterBusca" placeholder="Ex.: Art. 5º, CTB, flagrante...">
+            <input id="filterBusca" placeholder="Ex.: Art. 5º, crase, CTB, flagrante...">
           </div>
         </div>
-        <article class="card" style="margin-bottom:14px">
-          <h3>Adicionar tópico manualmente</h3>
-          <form class="form-grid" id="formTopic">
+        <details class="card" style="margin-bottom:14px">
+          <summary style="cursor:pointer;font-weight:600;font-size:13px;color:var(--primary)">+ Adicionar tópico personalizado ao edital</summary>
+          <form class="form-grid" id="formTopic" style="margin-top:12px;margin-bottom:0">
             <div class="field">
               <label>Cargo</label>
               <select id="newTopicCargo">
                 <option value="comum">Comum aos Dois</option>
-                <option value="transito">Exclusivo Trânsito</option>
-                <option value="guarda">Exclusivo Guarda</option>
+                <option value="transito">Agente de Trânsito</option>
+                <option value="guarda">Guarda Municipal</option>
               </select>
             </div>
             <div class="field">
               <label>Disciplina</label>
-              <input id="newTopicDisc" required placeholder="Ex.: Direito Constitucional">
+              <input id="newTopicDisc" required placeholder="Ex.: Resoluções CONTRAN">
             </div>
             <div class="field" style="flex:2">
               <label>Assunto / Subassunto</label>
-              <input id="newTopicAssunto" required placeholder="Ex.: Art. 144 — Segurança Pública">
+              <input id="newTopicAssunto" required placeholder="Ex.: Resolução 918/2022">
             </div>
             <div class="field">
               <label>Prioridade</label>
@@ -145,19 +243,18 @@
                 <option value="complementar">Complementar</option>
               </select>
             </div>
-            <div class="field" style="flex:0; justify-content:flex-end">
-              <label>&nbsp;</label>
-              <button class="btn btn-gold" type="submit">Adicionar</button>
+            <div class="field" style="flex:0;justify-content:flex-end">
+              <button class="btn btn-primary" type="submit">Salvar</button>
             </div>
           </form>
-        </article>
+        </details>
         <div class="table-wrap">
           <table>
             <thead>
               <tr>
                 <th>Cargo</th>
                 <th>Disciplina</th>
-                <th>Assunto / Subassunto</th>
+                <th>Assunto / Subassunto (Ordem do Edital)</th>
                 <th>Prioridade</th>
                 <th>Teoria</th>
                 <th>Rev. 24h</th>
@@ -171,86 +268,17 @@
         </div>
       </section>
 
-      <section class="tab" id="tab-plano">
-        <div class="page-title">
-          <div>
-            <h2>Gerador de Plano, Cronograma &amp; Pomodoro</h2>
-            <p>O cronômetro no topo registra horas automaticamente. Gere blocos priorizando o peso do edital.</p>
-          </div>
-        </div>
-        <article class="card" style="margin-bottom:14px">
-          <h3>Configuração rápida do plano</h3>
-          <div class="form-grid">
-            <div class="field" style="flex:2">
-              <label>Dias disponíveis</label>
-              <div class="days" id="planDays"></div>
-            </div>
-            <div class="field">
-              <label>Horas líquidas / dia</label>
-              <input type="number" id="planHours" min="1" max="12" step="0.5" value="3">
-            </div>
-            <div class="field">
-              <label>Horário de início</label>
-              <input type="time" id="planStart" value="07:00">
-            </div>
-            <div class="field">
-              <label>Fase da preparação</label>
-              <select id="planPhase">
-                <option value="1">Fase 1 — Base (50/30/20)</option>
-                <option value="2">Fase 2 — Aprofundamento (20/50/30)</option>
-                <option value="3">Fase 3 — Reta Final (10/50/40)</option>
-              </select>
-            </div>
-          </div>
-          <p style="font-size:12px;color:var(--muted);margin:8px 0 10px">Nível por disciplina (Iniciante peso 3 · Intermediário 2 · Avançado 1)</p>
-          <div class="levels" id="planLevels"></div>
-          <div class="toolbar" style="margin-top:14px">
-            <button type="button" class="btn btn-cyan" id="btnGenerate">Gerar Cronograma Automático</button>
-            <button type="button" class="btn btn-ghost" id="btnClearSchedule">Limpar cronograma</button>
-          </div>
-        </article>
-        <div class="table-wrap">
-          <table>
-            <thead>
-              <tr>
-                <th>Semana</th>
-                <th>Dia</th>
-                <th>Início</th>
-                <th>Fim</th>
-                <th>Cargo</th>
-                <th>Disciplina</th>
-                <th>Assunto</th>
-                <th>Atividade</th>
-                <th>Meta Q.</th>
-                <th>Previsto</th>
-                <th>Realizado</th>
-                <th></th>
-              </tr>
-            </thead>
-            <tbody id="scheduleBody"></tbody>
-          </table>
-        </div>
-      </section>
-
+      <!-- ABA 4: QUESTÕES -->
       <section class="tab" id="tab-questoes">
         <div class="page-title">
           <div>
-            <h2>Controle de Questões &amp; Banca FSADU</h2>
-            <p>Registre baterias. Erros e aproveitamento são calculados automaticamente.</p>
+            <h2>Controle de Questões (Banca FSADU)</h2>
+            <p>Registre suas baterias diárias e acompanhe a taxa de acerto por matéria.</p>
           </div>
         </div>
-        <article class="card info-card" style="margin-bottom:14px">
-          <h3>Perfil histórico da banca FSADU</h3>
-          <ul>
-            <li>5 alternativas (A–E) e forte cobrança da <strong>literalidade da lei seca</strong>.</li>
-            <li>Atenção a palavras restritivas: <em>apenas, somente, exclusivamente, exceto, salvo</em>.</li>
-            <li>Pegadinhas frequentes em prazos, competências e numeração de artigos.</li>
-            <li>Conhecimentos específicos pesam mais: 30 questões (Trânsito) e 40 (Guarda); Português 15; Informática 9–10.</li>
-          </ul>
-        </article>
         <article class="card" style="margin-bottom:14px">
-          <h3>Nova bateria</h3>
-          <form class="form-grid" id="formQuestoes">
+          <h3>Registrar nova bateria de exercícios</h3>
+          <form class="form-grid" id="formQuestoes" style="margin-bottom:0">
             <div class="field"><label>Data</label><input type="date" id="qDate" required></div>
             <div class="field">
               <label>Cargo</label>
@@ -261,7 +289,7 @@
               </select>
             </div>
             <div class="field"><label>Disciplina</label><input id="qDisc" required list="discList"></div>
-            <div class="field"><label>Assunto</label><input id="qAssunto" required></div>
+            <div class="field" style="flex:1.5"><label>Assunto</label><input id="qAssunto" required></div>
             <div class="field">
               <label>Banca</label>
               <select id="qBanca">
@@ -278,9 +306,9 @@
                 <option>Difícil</option>
               </select>
             </div>
-            <div class="field"><label>Qtd. questões</label><input type="number" id="qQtd" min="1" required></div>
+            <div class="field"><label>Qtd.</label><input type="number" id="qQtd" min="1" required></div>
             <div class="field"><label>Acertos</label><input type="number" id="qAcertos" min="0" required></div>
-            <div class="field" style="flex:0"><label>&nbsp;</label><button class="btn btn-gold" type="submit">Registrar</button></div>
+            <div class="field" style="flex:0;justify-content:flex-end"><button class="btn btn-primary" type="submit">Registrar</button></div>
           </form>
         </article>
         <div class="table-wrap">
@@ -296,20 +324,21 @@
         </div>
       </section>
 
+      <!-- ABA 5: ERROS & FLASHCARDS -->
       <section class="tab" id="tab-erros">
         <div class="page-title">
           <div>
             <h2>Caderno de Erros &amp; Flashcards</h2>
-            <p>Active recall: registre o erro e transforme em cartão de revisão.</p>
+            <p>Transforme seus erros em cartões de memorização ativa.</p>
           </div>
         </div>
         <div class="subtabs">
-          <button class="subtab active" data-sub="caderno">Sub-aba A — Caderno de Erros</button>
-          <button class="subtab" data-sub="flash">Sub-aba B — Flashcards</button>
+          <button class="subtab active" data-sub="caderno">Caderno de Erros</button>
+          <button class="subtab" data-sub="flash">Flashcards (Active Recall)</button>
         </div>
         <div id="sub-caderno">
           <article class="card" style="margin-bottom:14px">
-            <form class="form-grid" id="formErro">
+            <form class="form-grid" id="formErro" style="margin-bottom:0">
               <div class="field" style="flex:2"><label>Questão / Resumo do erro</label><textarea id="eResumo" required></textarea></div>
               <div class="field"><label>Disciplina</label><input id="eDisc" required list="discList"></div>
               <div class="field"><label>Assunto</label><input id="eAssunto" required></div>
@@ -319,16 +348,16 @@
                   <option>Falta de atenção</option>
                   <option>Desconhecimento da lei</option>
                   <option>Interpretação</option>
-                  <option>Pegadinha</option>
+                  <option>Pegadinha FSADU</option>
                 </select>
               </div>
-              <div class="field" style="flex:2"><label>Resposta correta / Explicação</label><textarea id="eExplicacao" required></textarea></div>
+              <div class="field" style="flex:2"><label>Resposta correta / Bizu</label><textarea id="eExplicacao" required></textarea></div>
               <div class="field"><label>Próxima revisão</label><input type="date" id="eProx" required></div>
-              <div class="field" style="flex:0"><label>&nbsp;</label><button class="btn btn-gold" type="submit">Salvar erro</button></div>
+              <div class="field" style="flex:0;justify-content:flex-end"><button class="btn btn-primary" type="submit">Salvar</button></div>
             </form>
           </article>
           <div class="filters">
-            <div class="field"><label>Filtrar disciplina</label><input id="erroFiltro" placeholder="Disciplina ou motivo"></div>
+            <div class="field"><label>Filtrar</label><input id="erroFiltro" placeholder="Buscar por disciplina, assunto ou motivo..."></div>
           </div>
           <div class="table-wrap">
             <table>
@@ -344,41 +373,42 @@
         </div>
         <div id="sub-flash" hidden>
           <article class="card" style="margin-bottom:14px">
-            <form class="form-grid" id="formFlash">
-              <div class="field" style="flex:2"><label>Frente (pergunta / artigo / prazo)</label><textarea id="fFront" required></textarea></div>
-              <div class="field" style="flex:2"><label>Verso (resposta)</label><textarea id="fBack" required></textarea></div>
+            <form class="form-grid" id="formFlash" style="margin-bottom:0">
+              <div class="field" style="flex:2"><label>Frente (Pergunta / Artigo / Prazo)</label><textarea id="fFront" required></textarea></div>
+              <div class="field" style="flex:2"><label>Verso (Resposta)</label><textarea id="fBack" required></textarea></div>
               <div class="field"><label>Disciplina</label><input id="fDisc" list="discList"></div>
-              <div class="field" style="flex:0"><label>&nbsp;</label><button class="btn btn-gold" type="submit">Criar card</button></div>
+              <div class="field" style="flex:0;justify-content:flex-end"><button class="btn btn-primary" type="submit">Criar Card</button></div>
             </form>
           </article>
           <div class="flash-stage" id="flashStage">
-            <div class="empty">Nenhum flashcard ainda. Crie o primeiro acima.</div>
+            <div class="empty">Nenhum flashcard criado ainda.</div>
           </div>
           <div class="flash-actions">
             <button class="btn btn-danger" id="flashFail">Errei (revisar amanhã)</button>
-            <button class="btn btn-ghost" id="flashFlip">Virar cartão</button>
-            <button class="btn btn-cyan" id="flashOk">Acertei (revisar em 7 dias)</button>
+            <button class="btn btn-outline" id="flashFlip">Virar cartão</button>
+            <button class="btn btn-success" id="flashOk">Acertei (revisar em 7 dias)</button>
           </div>
         </div>
       </section>
 
+      <!-- ABA 6: REVISÕES ESPAÇADAS -->
       <section class="tab" id="tab-revisoes">
         <div class="page-title">
           <div>
             <h2>Central de Revisões Espaçadas</h2>
-            <p>24h · 7 dias · 30 dias. Vermelho = atrasada · Verde = hoje.</p>
+            <p>Ciclo automático 24h · 7 dias · 30 dias após concluir aulas ou tópicos.</p>
           </div>
         </div>
         <div class="kpis">
-          <article class="card kpi"><div class="label">Hoje</div><div class="value" id="revHoje">0</div></article>
+          <article class="card kpi"><div class="label">Para Hoje</div><div class="value" id="revHoje" style="color:var(--green)">0</div></article>
           <article class="card kpi"><div class="label">Atrasadas</div><div class="value" id="revAtraso" style="color:var(--red)">0</div></article>
-          <article class="card kpi"><div class="label">Próximos 7 dias</div><div class="value" id="revSemana">0</div></article>
+          <article class="card kpi"><div class="label">Próximos 7 dias</div><div class="value" id="revSemana" style="color:var(--blue)">0</div></article>
         </div>
         <div class="table-wrap">
           <table>
             <thead>
               <tr>
-                <th>Assunto</th><th>Origem</th><th>Tipo</th><th>Prevista</th><th>Status</th><th></th>
+                <th>Assunto</th><th>Origem</th><th>Ciclo</th><th>Data Prevista</th><th>Status</th><th></th>
               </tr>
             </thead>
             <tbody id="revisoesBody"></tbody>
@@ -386,15 +416,16 @@
         </div>
       </section>
 
+      <!-- ABA 7: SIMULADOS -->
       <section class="tab" id="tab-simulados">
         <div class="page-title">
           <div>
-            <h2>Simulados</h2>
-            <p>Corte histórico: 40% Trânsito · 50% Guarda Municipal.</p>
+            <h2>Controle de Simulados</h2>
+            <p>Nota de corte de referência: 40% Agente de Trânsito · 50% Guarda Municipal.</p>
           </div>
         </div>
         <article class="card" style="margin-bottom:14px">
-          <form class="form-grid" id="formSimulado">
+          <form class="form-grid" id="formSimulado" style="margin-bottom:0">
             <div class="field"><label>Data</label><input type="date" id="sDate" required></div>
             <div class="field">
               <label>Cargo alvo</label>
@@ -405,9 +436,9 @@
             </div>
             <div class="field"><label>Português (acertos/total)</label><input id="sPort" placeholder="12/15" required></div>
             <div class="field"><label>Informática</label><input id="sInf" placeholder="7/10" required></div>
-            <div class="field"><label>RLM / História</label><input id="sRlm" placeholder="5/10" required></div>
+            <div class="field"><label>RLM / História</label><input id="sRlm" placeholder="6/10" required></div>
             <div class="field"><label>Específicos</label><input id="sEsp" placeholder="22/30" required></div>
-            <div class="field" style="flex:0"><label>&nbsp;</label><button class="btn btn-gold" type="submit">Registrar</button></div>
+            <div class="field" style="flex:0;justify-content:flex-end"><button class="btn btn-primary" type="submit">Registrar</button></div>
           </form>
         </article>
         <div class="table-wrap">
@@ -415,7 +446,7 @@
             <thead>
               <tr>
                 <th>Data</th><th>Cargo</th><th>Port.</th><th>Inf.</th><th>RLM/Hist.</th>
-                <th>Espec.</th><th>Total</th><th>%</th><th>Corte</th><th></th>
+                <th>Espec.</th><th>Total</th><th>%</th><th>Situação</th><th></th>
               </tr>
             </thead>
             <tbody id="simuladosBody"></tbody>
@@ -423,10 +454,11 @@
         </div>
       </section>
 
+      <!-- ABA 8: TAF -->
       <section class="tab" id="tab-taf">
         <div class="page-title">
           <div>
-            <h2>Treinamento para o TAF</h2>
+            <h2>Treinamento Físico (TAF)</h2>
             <p>Índices mínimos históricos dos editais de Imperatriz.</p>
           </div>
           <div class="field" style="min-width:180px">
@@ -440,24 +472,24 @@
         <div class="table-wrap" style="margin-bottom:14px">
           <table>
             <thead>
-              <tr><th>Prova</th><th>Meta mínima</th><th>Melhor marca</th><th>Situação</th></tr>
+              <tr><th>Prova</th><th>Índice Mínimo</th><th>Sua Melhor Marca</th><th>Situação</th></tr>
             </thead>
             <tbody id="tafMetasBody"></tbody>
           </table>
         </div>
         <article class="card" style="margin-bottom:14px">
-          <h3>Diário de treinos físicos</h3>
-          <form class="form-grid" id="formTaf">
+          <h3>Registrar treino</h3>
+          <form class="form-grid" id="formTaf" style="margin-bottom:0">
             <div class="field"><label>Data</label><input type="date" id="tDate" required></div>
             <div class="field" id="tafFields"></div>
-            <div class="field" style="flex:0"><label>&nbsp;</label><button class="btn btn-gold" type="submit">Registrar treino</button></div>
+            <div class="field" style="flex:0;justify-content:flex-end"><button class="btn btn-primary" type="submit">Salvar</button></div>
           </form>
         </article>
         <div class="table-wrap">
           <table>
             <thead>
               <tr>
-                <th>Data</th><th>Sexo</th><th>Marcas</th><th>Resultado</th><th></th>
+                <th>Data</th><th>Categoria</th><th>Marcas</th><th>Resultado</th><th></th>
               </tr>
             </thead>
             <tbody id="tafBody"></tbody>
@@ -468,10 +500,7 @@
   </div>
   <datalist id="discList"></datalist>
   <div class="toast" id="toast"></div>
-  <audio id="pomoBeep" preload="auto">
-    <source src="data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEAESsAACJWAAACABAAZGF0YQAAAAA=" type="audio/wav">
-  </audio>
   <script src="js/data.js"></script>
-  <script src="js/app.js"></script>
+  <script src="js/js_app.js"></script>
 </body>
 </html>
